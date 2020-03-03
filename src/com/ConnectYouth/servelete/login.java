@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.buf.UriUtil;
 
-import com.ConnectYouth.Model.Create;
+
 import com.ConnectYouth.Model.User;
 import com.ConnectYouth.db.UserDbUtil;
 
@@ -66,12 +66,9 @@ public class login extends HttpServlet {
 		tempUser.setEmail(request.getParameter("email"));
 		tempUser.setPassword(request.getParameter("password"));
 		
-		System.out.println(tempUser.getEmail());
-		System.out.println(tempUser.getPassword());
-		
 		if(tempUser.Login(userdb)) {
 			session.setAttribute("user",tempUser);
-			response.sendRedirect("home.jsp");			
+			response.sendRedirect("profile");			
 		}
 		else
 		{

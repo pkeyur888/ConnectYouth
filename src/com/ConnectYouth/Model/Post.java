@@ -1,7 +1,50 @@
 package com.ConnectYouth.Model;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.ConnectYouth.db.UserDbUtil;
+
 public class Post {
 
+	public Post(String postID, String content, String image, String date) {
+		this.postID=postID;
+		this.content=content;
+		this.image=image;
+		this.date=date;	
+	}
+	
+	
+	public Post() {
+		postID="";
+		content="";
+		image="";
+		date="";
+		email="";
+	}
+
+
+	private String postID;
+	
+
+	public String getPostID() {
+		return this.postID;
+	}
+	
+	public void setPostID(String postID) {
+		 this.postID=postID;
+	}
+	
+	private String email;
+	public String getEmail() {
+		return this.email;
+	}
+	
+	public void setEmail(String email) {
+		 this.email=email;
+	}
+	
+	
 	private String content;
 	
 	public String getContent() {
@@ -35,6 +78,19 @@ public class Post {
 	public void setDate(String date) {
 		 this.date=date;
 	}
+	
+	
+	public ArrayList selectAllPost(UserDbUtil userdb) {
+		ArrayList<Post> postList= new ArrayList<>();
+		try {
+			postList=userdb.selectAllPost(this);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return postList;
+	}
+	
 	
 	
 }

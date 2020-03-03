@@ -1,7 +1,6 @@
 package com.ConnectYouth.servelete;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -12,20 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import com.ConnectYouth.Model.Post;
 import com.ConnectYouth.Model.User;
 import com.ConnectYouth.db.UserDbUtil;
 
 /**
- * Servlet implementation class signup
+ * Servlet implementation class profile
  */
-@WebServlet("/signup")
-public class signup extends HttpServlet {
+@WebServlet("/profile")
+public class profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public signup() {
+    public profile() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,7 +34,8 @@ public class signup extends HttpServlet {
     private DataSource dataSource;
     private UserDbUtil userdb;
     
-    @Override
+    
+	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
@@ -44,33 +45,19 @@ public class signup extends HttpServlet {
 			throw new ServletException(ex);
 		}
 	}
-    
-    
-    
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HttpSession session=request.getSession();
-		User tempUser = new User();
-		tempUser.setFname(request.getParameter("fname"));
-		tempUser.setLname(request.getParameter("lname"));
-		tempUser.setEmail(request.getParameter("email"));
-		tempUser.setPassword(request.getParameter("password"));
-		;
-
-		if(tempUser.Register(userdb)) {
-			session.setAttribute("user",tempUser);
-			response.sendRedirect("home.jsp");			
-		}
-		else
-		{
-			response.sendRedirect("index.jsp");		
-		}
+		User user = (User) session.getAttribute("user");
+		System.out.println(user.getEmail());
 		
 		
-		
+		Post post=new Post();
+		post.setEmail(user.getEmail());
+		post.selectAllPost(userdb);
 	}
 
 	/**
