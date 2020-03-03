@@ -1,8 +1,10 @@
 package com.ConnectYouth.servelete;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,10 +56,18 @@ public class profile extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		System.out.println(user.getEmail());
 		
-		
+		ArrayList<Post> postList=new ArrayList<>();
 		Post post=new Post();
 		post.setEmail(user.getEmail());
-		post.selectAllPost(userdb);
+		postList=post.selectAllPost(userdb);
+		
+		
+		request.setAttribute("postList", postList);
+		
+		//Request Dispatcher
+		RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");
+		
+		dispatcher.forward(request, response);
 	}
 
 	/**
