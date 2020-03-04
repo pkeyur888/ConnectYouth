@@ -1,6 +1,7 @@
 package com.ConnectYouth.servelete;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
@@ -57,9 +58,16 @@ public class profile extends HttpServlet {
 		System.out.println(user.getEmail());
 		
 		ArrayList<Post> postList=new ArrayList<>();
-		Post post=new Post();
-		post.setEmail(user.getEmail());
-		postList=post.selectAllPost(userdb);
+
+		
+		UserDbUtil db=new UserDbUtil(dataSource);
+		
+		try {
+			postList=db.selectAllPost(user.getEmail());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		request.setAttribute("postList", postList);

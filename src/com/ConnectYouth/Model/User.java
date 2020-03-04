@@ -2,6 +2,7 @@ package com.ConnectYouth.Model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
@@ -59,7 +60,7 @@ public class User {
 		password="";
 	}
 	
-	
+		public ArrayList<Post> postList=new ArrayList<>();
 	
 	
 	public boolean Register(UserDbUtil userdb) {

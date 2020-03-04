@@ -80,16 +80,6 @@ public class Post {
 	}
 	
 	
-	public ArrayList selectAllPost(UserDbUtil userdb) {
-		ArrayList<Post> postList= new ArrayList<>();
-		try {
-			postList=userdb.selectAllPost(this);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return postList;
-	}
 	
 	
 	

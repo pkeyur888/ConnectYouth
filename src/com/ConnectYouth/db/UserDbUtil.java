@@ -81,7 +81,7 @@ public class UserDbUtil {
 	} 
 	
 	
-	public ArrayList selectAllPost(Post post) throws SQLException {
+	public ArrayList selectAllPost(String email) throws SQLException {
 		ArrayList<Post> postList= new ArrayList<>();
 		Connection conn=null ;
 		Statement stm = null;
@@ -91,7 +91,7 @@ public class UserDbUtil {
 				conn = this.dataSource.getConnection();
 				String sql = String.format("SELECT * FROM posts WHERE email=?");
 				PreparedStatement pstmt = conn.prepareStatement(sql); 
-				pstmt.setString(1, post.getEmail());
+				pstmt.setString(1,email);
 				res = pstmt.executeQuery();
 				while(res.next()){
 					postList.add(new Post(res.getString("postID"),res.getString("content"),res.getString("image"),res.getString("date")));
