@@ -8,5 +8,10 @@
 </head>
 <body>
 <h1>Home Page</h1>
+
+
+<form method="post" action="login">
+<inpu type="submit" name="logout" value="logout">
+</form>
 </body>
 </html>
