@@ -19,7 +19,7 @@
 		<input type="submit" name="submit" value="Submit">
 	</form>
 
-	
+	<a href="login.jsp">login</a>
 	
 	
 

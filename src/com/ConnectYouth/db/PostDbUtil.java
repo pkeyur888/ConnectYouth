@@ -7,11 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import com.ConnectYouth.Model.Post;
-import com.ConnectYouth.Model.User;
 
 public class PostDbUtil {
 	private DataSource dataSource;
@@ -22,10 +20,8 @@ public class PostDbUtil {
 	}
 	
 	
-	public ArrayList selectAllPost(String email) throws SQLException {
-		HttpSession session=request.getSession();
-		User tempUser=(User) session.getAttribute("user");
-		
+	public ArrayList selectUserPost(String email) throws SQLException {
+		ArrayList<Post> postList= new ArrayList<>();
 		Connection conn=null ;
 		Statement stm = null;
 		ResultSet res = null;
@@ -37,12 +33,10 @@ public class PostDbUtil {
 				pstmt.setString(1,email);
 				res = pstmt.executeQuery();
 				while(res.next()){
-					tempUser.postList.add(new Post(res.getString("postID"),res.getString("content"),res.getString("image"),res.getString("date")));
-				
-					
+					postList.add(new Post(res.getString("postID"),res.getString("content"),res.getString("image"),res.getString("date")));	
 	            }
 			 
-				return tempUser.postList;
+				return postList;
 			 
 		} finally {
 			close(conn,stm,res);
@@ -51,6 +45,33 @@ public class PostDbUtil {
 }
 
 
+	public ArrayList selectAllPost() throws SQLException {
+		ArrayList<Post> postList= new ArrayList<>();
+		Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		try {
+			conn = this.dataSource.getConnection();
+			String sql = String.format("SELECT * FROM posts");
+			PreparedStatement pstmt = conn.prepareStatement(sql); 
+			res = pstmt.executeQuery();
+		
+				while(res.next()){
+					postList.add(new Post(res.getString("postID"),res.getString("content"),res.getString("image"),res.getString("date")));
+				} 
+				
+				return postList;
+		}finally {
+				close(conn,stm,res);
+			}
+				
+        }
+	
+	
+		
+		
+		
+	
 
 
 private void close(Connection conn,Statement smt,ResultSet res) {

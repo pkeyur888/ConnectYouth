@@ -15,7 +15,10 @@
 }
 </style>
 </head>
-
+<form method="post" action="login">
+		
+		<input type="submit" name="logout" value="logout">
+	</form>
 <h1>Hello</h1>
 
 <tag:forEach var="post" items="${postList}">
@@ -28,6 +31,6 @@
   </div>
 </tag:forEach>
 
-
+<a href="home">Home</a>
 
 </html>

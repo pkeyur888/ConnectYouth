@@ -1,11 +1,8 @@
 package com.ConnectYouth.servelete;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,37 +11,33 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import com.ConnectYouth.Model.Post;
 import com.ConnectYouth.Model.User;
-import com.ConnectYouth.db.PostDbUtil;
-
+import com.ConnectYouth.db.UserDbUtil;
 
 /**
- * Servlet implementation class profile
+ * Servlet implementation class addFriend
  */
-@WebServlet("/profile")
-public class profile extends HttpServlet {
+@WebServlet("/addFriend")
+public class addFriend extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public profile() {
+    public addFriend() {
         super();
         // TODO Auto-generated constructor stub
     }
-
     @Resource(name="jdbc/connectyouth")
     private DataSource dataSource;
-    private PostDbUtil postdb;
+    private UserDbUtil userdb;
     
-    
-	@Override
+    @Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
 		try {
-			postdb = new PostDbUtil(dataSource);
+			userdb = new UserDbUtil(dataSource);
 		}catch(Exception ex) {
 			throw new ServletException(ex);
 		}
@@ -54,29 +47,29 @@ public class profile extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session=request.getSession();
-		User user = (User) session.getAttribute("user");
-		System.out.println(user.getEmail());
-		
-		
-		User tempUser=new User();
-		
-		PostDbUtil db=new PostDbUtil(dataSource);
-		
-		try {
-			tempUser.postList=db.selectUserPost(user.getEmail());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//		System.out.println(request.getParameter("addfriend"));
+//		System.out.println(request.getParameter("friendEmail"));
+		if(request.getParameter("addfriend") != null) {
+			HttpSession session=request.getSession();
+			User currentUser= (User) session.getAttribute("user");
+			User tempUser=new User();
+			
+			tempUser.setEmail(currentUser.getEmail());
+			tempUser.setRequestReciverID(request.getParameter("friendEmail"));
+			tempUser.setFriendStatus("0");			
+			if(tempUser.addFriend(userdb)) {
+				response.sendRedirect("home");
+			}
+				
+		}
+		else {
+			response.sendRedirect("home");
 		}
 		
 		
-		request.setAttribute("postList", tempUser.postList);
 		
-		//Request Dispatcher
-		RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");
 		
-		dispatcher.forward(request, response);
+		
 	}
 
 	/**

@@ -63,8 +63,7 @@ public class UserDbUtil {
 					founduser.setFname(res.getString("FirstName"));
 					founduser.setLname(res.getString("LastName"));
 					founduser.setPassword(res.getString("Password"));
-					founduser.setEmail(res.getString("Email"));
-					
+					founduser.setEmail(res.getString("Email"));			
 					
 	            }
 			 
@@ -75,16 +74,83 @@ public class UserDbUtil {
 		}
 			
 		
-		
-		
-		
 	} 
 	
 	
+	public ArrayList selectAllUser() throws SQLException {
+		ArrayList<User> userList= new ArrayList<>();
+		Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		
+		try {
+			conn = this.dataSource.getConnection();
+			String sql = String.format("SELECT FirstName,LastName,Email FROM user");
+			PreparedStatement pstmt = conn.prepareStatement(sql); 
+			res = pstmt.executeQuery();
+		
+				while(res.next()){
+					userList.add(new User(res.getString("FirstName"),res.getString("LastName"),res.getString("Email")));
+				} 
+				
+				return userList;
+		}finally {
+				close(conn,stm,res);
+			}
+				
+        }
+	
+	
+	public ArrayList friendList(String email) throws SQLException {
+		ArrayList<User> friendList= new ArrayList<>();
+		Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		
+		try {
+			conn = this.dataSource.getConnection();
+			String sql = String.format("SELECT * FROM friends where RelatingUserEmail=?");
+			PreparedStatement pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1, email);
+			res = pstmt.executeQuery();
+				while(res.next()){
+					friendList.add(new User(res.getString("RelatedUserEmail"),res.getString("status")));
+				} 
+				
+				return friendList;
+		}finally {
+				close(conn,stm,res);
+			}
+				
+        }
 	
 			
 		
+
+	public boolean addFriend(User user) throws SQLException {
 		
+		
+		Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		int execute;
+		
+		
+		
+		
+		try {
+			conn = this.dataSource.getConnection();
+			 String sql=String.format("INSERT INTO friends  VALUES ('%s', '%s', '%s')",user.getEmail(),user.getRequestReciverID(),user.getFriendStatus());
+			 stm= conn.createStatement();
+			 execute=stm.executeUpdate(sql); 
+			
+			 
+		} finally {
+			close(conn,stm,res);
+		}
+			
+		return execute==1?true:false;
+	}	
 		
 		
 		
@@ -108,5 +174,69 @@ public class UserDbUtil {
 			exe.printStackTrace();
 		}
 	}
+
+
+
+
+	public int findRequest(String email) throws SQLException {
+		Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		int requestCount=0;
+		
+		try {
+			conn = this.dataSource.getConnection();
+			String sql = String.format("SELECT * FROM friends where RelatedUserEmail=? and status=?");
+			PreparedStatement pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1, email);
+			pstmt.setString(2, "0");
+			res = pstmt.executeQuery();
+				while(res.next()){
+					requestCount++;
+				} 
+				
+				return requestCount;
+		}finally {
+				close(conn,stm,res);
+			}
+			
+		
+	}
+
+
+
+
+	public ArrayList findRequestList(String email) throws SQLException {
+		ArrayList<User> requestList=new ArrayList<>();
+		Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		ArrayList<User> findRequestList=new ArrayList<>();
+
+
+		try {
+			conn = this.dataSource.getConnection();
+			String sql = String.format("SELECT * FROM connectyouth.friends as f inner join connectyouth.user as u where  f.RelatingUserEmail= u.Email and f.status=? and f.RelatedUserEmail=?;");
+			PreparedStatement pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1, "0");
+			pstmt.setString(2, email);
+			res = pstmt.executeQuery();
+				while(res.next()){
+					findRequestList.add(new User(res.getString("FirstName"),res.getString("LastName"),res.getString("Email")));
+					System.out.println(res.getString("FirstName"));
+					System.out.println(res.getString("LastName"));
+					System.out.println(res.getString("Email"));
+				} 
+				
+				return findRequestList;
+		}finally {
+				close(conn,stm,res);
+			}
+		
+	}
+
+
+
+
 
 }

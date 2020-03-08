@@ -62,7 +62,7 @@ public class signup extends HttpServlet {
 
 		if(tempUser.Register(userdb)) {
 			session.setAttribute("user",tempUser);
-			response.sendRedirect("home.jsp");			
+			response.sendRedirect("home");			
 		}
 		else
 		{

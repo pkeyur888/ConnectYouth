@@ -59,9 +59,16 @@ public class login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
 		HttpSession session=request.getSession();
+		String logout=request.getParameter("logout");
+		if(logout != null) {
+			session.removeAttribute("user");
+			response.sendRedirect("login.jsp");
+		}
+		else
+		{
+		
+		
 		User tempUser = new User();
 		tempUser.setEmail(request.getParameter("email"));
 		tempUser.setPassword(request.getParameter("password"));
@@ -75,7 +82,7 @@ public class login extends HttpServlet {
 			response.sendRedirect("login.jsp");		
 		}
 
-		
+		}
 	}
 
 	/**

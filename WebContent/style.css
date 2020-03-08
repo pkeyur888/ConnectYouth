@@ -1,0 +1,74 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 70%;
+    margin: auto;
+    background: linear-gradient( rgb(148, 93, 93) 0%,rgb(129, 53, 53) 100%);
+}
+
+.header{
+    text-align: center;
+    color: aqua;
+}
+.navbar{
+ 
+    background-color: blueviolet;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.navbar input{
+    margin-left: 40px;
+}
+.loginUser{
+    position: absolute;
+    top: 4%;
+    right: 15%;
+    text-align: center;
+}
+.createPost{
+  
+    width: 70%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.createPost input:nth-child(2){
+    width: 15%;
+    padding: 5px;
+}
+.createPost input:first-child{
+
+    height: 30px;
+    width: 70%;}
+    .posts{
+       
+    }
+.postContent{
+    background-color: brown;
+    min-height: 100px;
+    width: 80%;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+.postContent p{
+margin-left: 30px;
+
+}
+.postContent input{
+margin-top: 30px;
+}
+
+
+.fas fa-user-friends .item-count{
+  color:white;
+  background-color:red;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  padding: 2px;
+}

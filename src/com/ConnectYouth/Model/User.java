@@ -11,6 +11,8 @@ import com.ConnectYouth.db.UserDbUtil;
 
 public class User {
 
+	public ArrayList<Post> postList=new ArrayList<>();
+	public ArrayList<User> userList=new ArrayList<>();
 	
 	private String fname;
 	
@@ -52,15 +54,48 @@ public class User {
 		 this.password=password;
 	}
 	
+	private String requestReciverID;
+	public String getRequestReciverID() {
+		return this.requestReciverID;
+	}
+	public void setRequestReciverID(String requestReciverID) {
+		this.requestReciverID=requestReciverID;
+	}
+	
+	private String friendStatus;
+	public String getFriendStatus() {
+		return this.friendStatus;
+	}
+	public void setFriendStatus(String friendStatus) {
+		this.friendStatus=friendStatus;
+	}
 	
 	public User() {
 		fname="";
 		lname="";
 		email="";
 		password="";
+		requestReciverID="";
+	}
+	public User(String requestReciverID,String friendStatus) {
+		this.requestReciverID=requestReciverID;
+		this.friendStatus=friendStatus;
 	}
 	
-		public ArrayList<Post> postList=new ArrayList<>();
+		public User(String fname, String lname, String email) {
+			this.email=email;
+			this.fname=fname;
+			this.lname=lname;
+			
+			System.out.println(email);
+			System.out.println(fname);
+			
+			
+			
+			
+	}
+
+		
 	
 	
 	public boolean Register(UserDbUtil userdb) {
@@ -93,8 +128,21 @@ public class User {
 		}
 		
 		return false;
-		
+	}
 	
+	public boolean addFriend(UserDbUtil userdb) {
+		
+		try {
+			if(userdb.addFriend(this))
+			{
+				return true;
+			}
+				
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

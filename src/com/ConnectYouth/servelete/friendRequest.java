@@ -14,99 +14,59 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import com.ConnectYouth.Model.Post;
 import com.ConnectYouth.Model.User;
-import com.ConnectYouth.db.PostDbUtil;
 import com.ConnectYouth.db.UserDbUtil;
 
 /**
- * Servlet implementation class home
+ * Servlet implementation class friendRequest
  */
-@WebServlet("/home")
-public class home extends HttpServlet {
+@WebServlet("/friendRequest")
+public class friendRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public home() {
+    public friendRequest() {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    
+    
     @Resource(name="jdbc/connectyouth")
     private DataSource dataSource;
-    private PostDbUtil postdb;
     private UserDbUtil userdb;
-    private int requectCounter=0;
     
-    
-	@Override
+    @Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
 		try {
-			postdb = new PostDbUtil(dataSource);
 			userdb = new UserDbUtil(dataSource);
 		}catch(Exception ex) {
 			throw new ServletException(ex);
 		}
 	}
-    
-    
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		User tempUser=new User();
-		PostDbUtil db=new PostDbUtil(dataSource);
-		UserDbUtil dbUser=new UserDbUtil(dataSource);
-		
 		HttpSession session=request.getSession();
+		UserDbUtil dbUser=new UserDbUtil(dataSource);
 		User user = (User) session.getAttribute("user");
 		
-		//Find Pending Request
+		User tempUser=new User();
 		try {
-			requectCounter=0;
-			requectCounter=dbUser.findRequest(user.getEmail());
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
-	
-		
-		//Fetch all the post
-		try {
-			tempUser.postList=db.selectAllPost();
+			tempUser.userList=dbUser.findRequestList(user.getEmail());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		 ArrayList<User> friendList=new ArrayList<>();
-		//Fetch all the user for Search in home page
-		try {
-			tempUser.userList=dbUser.selectAllUser();
-			friendList=dbUser.friendList(user.getEmail());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
-		request.setAttribute("postList", tempUser.postList);
-		request.setAttribute("userList", tempUser.userList);
-//		request.setAttribute("friendList", friendList);
-		request.setAttribute("requestCounter", requectCounter);
-		
-		//Request Dispatcher
-		RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
-		
+		request.setAttribute("requestList", tempUser.userList);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("friendRquest.jsp");		
 		dispatcher.forward(request, response);
-		
 	}
 
 	/**
