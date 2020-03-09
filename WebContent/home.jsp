@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <title>Home</title>
 </head>
@@ -18,15 +19,19 @@
 
 
     <div class="navbar">
-        <input type="button" style='font-size:40px;color:red' class='fa fa-home' name="profile" value="&#xf015">
-        <input type="button" style='font-size:40px;color:red' class='fas fa-user-circle' name="profile" value="&#xf2bd">
+    <form action="home" method="post"> 
+        <input type="submit" style='font-size:40px;color:red' class='fa fa-home' name="home" value="&#xf015">
+     </form> 
+     <form action="profile" method="post">    
+        <input type="submit" style='font-size:40px;color:red' class='fas fa-user-circle' name="profile" value="&#xf2bd">
+     </form>    
         <input type="button" class='fas fa-comment-dots' style='font-size:40px;color:red' name="massege" value="&#xf4ad"
             onclick=msg()>
-           <form action="friendRequest" method="post"> 
+     <form action="friendRequest" method="post"> 
         <input type="submit" class='fas fa-user-friends' style='font-size:40px;color:red' name="friendRequest"
             value="&#xf500">
-             <span class="item-count"><tag:out value="${requestCounter}"></tag:out></span>
-             </form>
+             <span class="item-count"><tag:out value="${session.getAttribute('requestCount')}"></tag:out></span>
+     </form>
         <input type="button" class='fas fa-bell' style='font-size:40px;color:red' name="friends" value="&#xf0f3">   
     </div>
     <div class="loginUser">

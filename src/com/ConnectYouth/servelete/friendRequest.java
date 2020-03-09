@@ -56,17 +56,30 @@ public class friendRequest extends HttpServlet {
 		UserDbUtil dbUser=new UserDbUtil(dataSource);
 		User user = (User) session.getAttribute("user");
 		
-		User tempUser=new User();
+		if(request.getParameter("Accept") != null) {
+			user.acceptRequest(userdb,request.getParameter("userEmail"));
+		}else if(request.getParameter("Delete") != null) {
+			user.deleteRequest(userdb,request.getParameter("userEmail"));
+		}
+		
 		try {
-			tempUser.userList=dbUser.findRequestList(user.getEmail());
+			user.setUserList(dbUser.findRequestList(user));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		
-		request.setAttribute("requestList", tempUser.userList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("friendRquest.jsp");		
-		dispatcher.forward(request, response);
+		
+		session.setAttribute("user", user);
+		
+	
+		
+		
+		response.sendRedirect("friendRquest.jsp");
+		
+//		request.setAttribute("requestList", tempUser);
+//		RequestDispatcher dispatcher = request.getRequestDispatcher("friendRquest.jsp");		
+//		dispatcher.forward(request, response);
 	}
 
 	/**

@@ -14,6 +14,14 @@ public class User {
 	public ArrayList<Post> postList=new ArrayList<>();
 	public ArrayList<User> userList=new ArrayList<>();
 	
+	public ArrayList<User> getUserList() {
+		return this.userList;
+	}
+	
+	public void setUserList(ArrayList<User> userList) {
+		this.userList=userList;
+	}
+
 	private String fname;
 	
 	public String getFname() {
@@ -87,8 +95,6 @@ public class User {
 			this.fname=fname;
 			this.lname=lname;
 			
-			System.out.println(email);
-			System.out.println(fname);
 			
 			
 			
@@ -143,6 +149,24 @@ public class User {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	public void acceptRequest(UserDbUtil userdb,String userEmail) {
+		try {
+			userdb.acceptRequest(userEmail,this.getEmail());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	public void deleteRequest(UserDbUtil userdb,String userEmail) {
+		try {
+			userdb.deleteRequest(userEmail);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

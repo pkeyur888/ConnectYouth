@@ -14,19 +14,42 @@ body{
 }
 .navbar{
  
-    background-color: blueviolet;
+    background-color: cadetblue;;
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+}
+input[type="submit"],[type="button"]{
+cursor: pointer;
 }
 .navbar input{
     margin-left: 40px;
 }
 .loginUser{
-    position: absolute;
+    /* position: absolute;
     top: 4%;
     right: 15%;
+    text-align: center; */
+}
+.loginUser h2 {
+    left: 220px;
+    position: absolute;
+    top: 4%;
     text-align: center;
+    background: rgb(207, 195, 152);
+    width: 175px;
+    border-radius: 30px;
+    padding: 9px;
+}
+.loginUser input{
+    position: absolute;
+    right: 17%;
+    top: 5%;
+    width: 100px;
+    padding: 8px;
+    background: rgb(207, 195, 152);
+    border-radius: 28px;
+
 }
 .createPost{
   
@@ -43,12 +66,13 @@ body{
     height: 30px;
     width: 70%;}
     .posts{
-       
+       display: inline-block;
+       width: 70%;
     }
 .postContent{
     background-color: brown;
     min-height: 100px;
-    width: 80%;
+    width: 100%;
     border-radius: 20px;
     margin-bottom: 20px;
 }
@@ -60,15 +84,139 @@ margin-left: 30px;
 margin-top: 30px;
 }
 
+/* profile */
 
-.fas fa-user-friends .item-count{
-  color:white;
-  background-color:red;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  padding: 2px;
+.editPost{
+    display: none;
+    background-color: darkgreen;
+}
+.frindList{
+    position: absolute;
+    right: 170px;
+    background-color: white;
+    width: 20%;
+    min-height: 330px;
+    max-height: 360px;
+    display: inline-block;
+    overflow: scroll;
+}
+.frindList input{
+    width: 100%;
+    padding: 20px;
+
+}
+
+/* messages */
+.msg{
+    text-align: center;
+    right: 170px;
+    background-color: white;
+    width: 20%;
+    min-height: 330px;
+    max-height: 360px;
+    display: inline-block;
+    overflow: scroll;
+    margin-bottom: 138px;
+   
+}
+.msg h3{
+    position: absolute;
+    width: 13%;
+    margin: auto;
+    background: ghostwhite;
+}
+.msg input{
+    width: 100%;
+    padding: 20px;
+}
+.msgBox{
+    width: 50%;
+    height: 500px;
+    background-color: white;
+    display: inline-block;
+    position: absolute;
+    margin-left: 5%;
+    overflow: scroll;
+}
+.msgBox h3{
+    text-align: center;
+    width: 25%;
+    margin: auto;
+    background: darkgray;
+    padding: 10px;
+    border-radius: 30px;
+    margin-top: 10px;
+}
+.msgBox p{
+    padding: 10px;
+    background: cadetblue;
+    border-radius: 30px;
+    width: 40%;
+    margin-top: 8px;
+}
+.msgBox input[type="text"]{
+    position: absolute;
+    bottom: 0px;
+    width: 70%;
+    padding: 10px;
+    border-radius: 30px;
+    margin-left: 20px;
+}
+.msgBox input[type="submit"]{
+    width: 20%;
+    position: absolute;
+    bottom: 0px;
+    right: 5px;
+    padding: 10px;
+    border-radius: 30px;
+}
+/* notification */
+.notification{
+    background-color: wheat;
+    width: 60%;
+    margin: auto;
+    min-height: 400px;
+    max-height: 400px;
+    overflow: scroll;
+
+}
+.notification h3{
+    text-align: center;
+    text-decoration: underline;
+    font-size: xx-large;
+    font-style: oblique;
+}
+.notification p{
+    width: 40%;
+    margin: 10px;
+    background: cadetblue;
+    padding: 10px;
+    border-radius: 10px;
+}
+/* friend req */
+.request{
+    background-color: wheat;
+    width: 50%;
+    margin: auto;
+    min-height: 400px;
+    max-height: 400px;
+    overflow: scroll;
+}
+.request h3{
+    text-align: center;
+    text-decoration: underline;
+    font-size: xx-large;
+    font-style: oblique;
+}
+.addFriend{
+    text-align: center;
+    margin: 10px;
+    background-color: cadetblue;
+    width: 50%;
+    margin: auto;
+    margin-top: 10px;}
+
+.addFriend input{
+    padding: 4px;
+    border-radius: 15px;
 }

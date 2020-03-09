@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 import com.ConnectYouth.Model.Post;
 import com.ConnectYouth.Model.User;
 import com.ConnectYouth.db.PostDbUtil;
+import com.ConnectYouth.db.UserDbUtil;
 
 
 /**
@@ -59,19 +60,20 @@ public class profile extends HttpServlet {
 		System.out.println(user.getEmail());
 		
 		
-		User tempUser=new User();
 		
-		PostDbUtil db=new PostDbUtil(dataSource);
 		
+		PostDbUtil postdb=new PostDbUtil(dataSource);
+		UserDbUtil userdb=new UserDbUtil(dataSource);
 		try {
-			tempUser.postList=db.selectUserPost(user.getEmail());
+			user.postList=postdb.selectUserPost(user.getEmail());
+			user.userList=userdb.selectUserFriend(user.getEmail());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
-		request.setAttribute("postList", tempUser.postList);
+		request.setAttribute("postList", user.postList);
 		
 		//Request Dispatcher
 		RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");

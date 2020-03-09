@@ -96,11 +96,11 @@ public class home extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
+		session.setAttribute("requestCount", requectCounter);
 		request.setAttribute("postList", tempUser.postList);
 		request.setAttribute("userList", tempUser.userList);
-//		request.setAttribute("friendList", friendList);
-		request.setAttribute("requestCounter", requectCounter);
+		request.setAttribute("friendList", friendList);
+		//request.setAttribute("requestCounter", requectCounter);
 		
 		//Request Dispatcher
 		RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");

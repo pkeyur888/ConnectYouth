@@ -7,30 +7,66 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>ConnectYouth</title>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <title>Profile</title>
 <style>
 .w3-card-4{
 	margin-top:20px;
 }
 </style>
 </head>
-<form method="post" action="login">
-		
-		<input type="submit" name="logout" value="logout">
-	</form>
-<h1>Hello</h1>
+<h2 class="header">Profile</h2>
 
-<tag:forEach var="post" items="${postList}">
 
-<div class="w3-card-4" style="width:50%">
-    <img src="img_snowtops.jpg" alt="Alps" style="width:100%">
-    <div class="w3-container w3-center">
-      <p>${post.getContent()}</p>
+    <div class="navbar">
+    <form action="home" method="post"> 
+        <input type="submit" style='font-size:40px;color:red' class='fa fa-home' name="home" value="&#xf015">
+     </form> 
+     <form action="profile" method="post">    
+        <input type="submit" style='font-size:40px;color:red' class='fas fa-user-circle' name="profile" value="&#xf2bd">
+     </form>    
+        <input type="button" class='fas fa-comment-dots' style='font-size:40px;color:red' name="massege" value="&#xf4ad"
+            onclick=msg()>
+     <form action="friendRequest" method="post"> 
+        <input type="submit" class='fas fa-user-friends' style='font-size:40px;color:red' name="friendRequest"
+            value="&#xf500">
+             <span class="item-count"><tag:out value="${requestCounter}"></tag:out></span>
+     </form>
+        <input type="button" class='fas fa-bell' style='font-size:40px;color:red' name="friends" value="&#xf0f3">   
     </div>
-  </div>
+    <div class="loginUser">
+        <h2>Name</h2>
+        <form method="post" action="login">
+			<input type="submit" name="logout" value="logout">
+		</form>
+         </div>
+         <div class="createPost">
+            <input type="text" name="post" placeholder="What is in your mind">
+            <input type="submit" value="Post">
+        </div>
+    <div class="posts">
+    
+    
+    <tag:forEach var="post" items="${postList}">
+    
+        <div  class="postContent">
+<p>${post.getContent()}</p>
+<input type="submit" value="Like">
+<input type="submit" value="Save">
+</div>
 </tag:forEach>
-
+    </div>
+<div class="frindList">
+    <h3>Friends</h3>
+    <input type="submit" value="Samar Girn">
+    <input type="submit" value="Kyuer">
+    <input type="submit" value="Rajveer">
+    <input type="submit" value="Karanveer">
+    <input type="submit" value="Nisarg">
+</div>
 <a href="home">Home</a>
 
 </html>

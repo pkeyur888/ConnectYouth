@@ -140,7 +140,9 @@ public class UserDbUtil {
 		
 		try {
 			conn = this.dataSource.getConnection();
-			 String sql=String.format("INSERT INTO friends  VALUES ('%s', '%s', '%s')",user.getEmail(),user.getRequestReciverID(),user.getFriendStatus());
+			System.out.println("---------");
+			System.out.println(user.getEmail());
+			 String sql=String.format("INSERT INTO friends  VALUES ('%s', '%s', '%s')",(user.getEmail()).trim(),(user.getRequestReciverID()).trim(),user.getFriendStatus());
 			 stm= conn.createStatement();
 			 execute=stm.executeUpdate(sql); 
 			
@@ -188,7 +190,7 @@ public class UserDbUtil {
 			conn = this.dataSource.getConnection();
 			String sql = String.format("SELECT * FROM friends where RelatedUserEmail=? and status=?");
 			PreparedStatement pstmt = conn.prepareStatement(sql); 
-			pstmt.setString(1, email);
+			pstmt.setString(1,email);
 			pstmt.setString(2, "0");
 			res = pstmt.executeQuery();
 				while(res.next()){
@@ -206,8 +208,8 @@ public class UserDbUtil {
 
 
 
-	public ArrayList findRequestList(String email) throws SQLException {
-		ArrayList<User> requestList=new ArrayList<>();
+	public ArrayList findRequestList(User user) throws SQLException {
+//		ArrayList<User> requestList=new ArrayList<>();
 		Connection conn=null ;
 		Statement stm = null;
 		ResultSet res = null;
@@ -216,19 +218,18 @@ public class UserDbUtil {
 
 		try {
 			conn = this.dataSource.getConnection();
-			String sql = String.format("SELECT * FROM connectyouth.friends as f inner join connectyouth.user as u where  f.RelatingUserEmail= u.Email and f.status=? and f.RelatedUserEmail=?;");
+			String sql = String.format("SELECT * FROM connectyouth.friends as f inner join connectyouth.user as u on u.Email= f.RelatingUserEmail where   f.status=? and f.RelatedUserEmail=?");
 			PreparedStatement pstmt = conn.prepareStatement(sql); 
 			pstmt.setString(1, "0");
-			pstmt.setString(2, email);
+			pstmt.setString(2, user.getEmail().trim());
 			res = pstmt.executeQuery();
 				while(res.next()){
-					findRequestList.add(new User(res.getString("FirstName"),res.getString("LastName"),res.getString("Email")));
+					findRequestList.add((new User(res.getString("FirstName"),res.getString("LastName"),res.getString("Email"))));
 					System.out.println(res.getString("FirstName"));
 					System.out.println(res.getString("LastName"));
 					System.out.println(res.getString("Email"));
 				} 
-				
-				return findRequestList;
+				return findRequestList; 
 		}finally {
 				close(conn,stm,res);
 			}
@@ -237,6 +238,83 @@ public class UserDbUtil {
 
 
 
+
+	public void acceptRequest(String senderEmail,String reciverEmail) throws SQLException {
+
+		
+		Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		int execute;
+
+		try {
+			conn = this.dataSource.getConnection();
+			 String sql=String.format("update  friends set status=1 where RelatedUserEmail=? and RelatingUserEmail=? ");
+			 PreparedStatement pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1,  reciverEmail.trim());
+				pstmt.setString(2,senderEmail.trim());
+				 pstmt.executeUpdate();
+			
+			 
+		} finally {
+			close(conn,stm,res);
+		}
+			
+		
+		
+	}
+
+
+
+
+	public void deleteRequest(String userEmail) throws SQLException {
+
+		Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		int execute;
+
+		try {
+			conn = this.dataSource.getConnection();
+			 String sql=String.format("DELETE FROM friends WHERE RelatingUserEmail=? ");
+			 PreparedStatement pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1, userEmail);
+				 pstmt.executeUpdate();
+			
+			 
+		} finally {
+			close(conn,stm,res);
+		}
+			
+		
+	}
+
+
+
+
+public ArrayList selectUserFriend(String email) throws SQLException {
+	ArrayList<Post> userList= new ArrayList<>();
+	Connection conn=null ;
+	Statement stm = null;
+	ResultSet res = null;
+	
+	try {
+			conn = this.dataSource.getConnection();
+			String sql = String.format("select * from connectyouth.friends where RelatedUserEmail=? and status='1' union  select * from connectyouth.friends where RelatingUserEmail=? and status='1'");
+			PreparedStatement pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1,email);
+			pstmt.setString(1,email);
+			res = pstmt.executeQuery();
+			while(res.next()){
+				userList.add(new User(res.getString("postID"),res.getString("content"),res.getString("image"),res.getString("date")));	
+            }
+		 
+			return userList;
+		 
+	} finally {
+		close(conn,stm,res);
+	}
+}
 
 
 }
