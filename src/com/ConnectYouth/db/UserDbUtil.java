@@ -5,15 +5,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
-
-import com.ConnectYouth.Model.Post;
-import com.ConnectYouth.Model.User;
-
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.sql.DataSource;
+
+import com.ConnectYouth.Model.User;
 
 public class UserDbUtil {
 	
@@ -77,7 +74,7 @@ public class UserDbUtil {
 	} 
 	
 	
-	public ArrayList selectAllUser() throws SQLException {
+	public ArrayList<User> selectAllUser() throws SQLException {
 		ArrayList<User> userList= new ArrayList<>();
 		Connection conn=null ;
 		Statement stm = null;
@@ -101,7 +98,7 @@ public class UserDbUtil {
         }
 	
 	
-	public ArrayList friendList(String email) throws SQLException {
+	public ArrayList<User> friendList(String email) throws SQLException {
 		ArrayList<User> friendList= new ArrayList<>();
 		Connection conn=null ;
 		Statement stm = null;
@@ -134,14 +131,9 @@ public class UserDbUtil {
 		Statement stm = null;
 		ResultSet res = null;
 		int execute;
-		
-		
-		
-		
+
 		try {
 			conn = this.dataSource.getConnection();
-			System.out.println("---------");
-			System.out.println(user.getEmail());
 			 String sql=String.format("INSERT INTO friends  VALUES ('%s', '%s', '%s')",(user.getEmail()).trim(),(user.getRequestReciverID()).trim(),user.getFriendStatus());
 			 stm= conn.createStatement();
 			 execute=stm.executeUpdate(sql); 
@@ -243,7 +235,7 @@ public class UserDbUtil {
 		Connection conn=null ;
 		Statement stm = null;
 		ResultSet res = null;
-		int execute;
+		
 
 		try {
 			conn = this.dataSource.getConnection();
@@ -272,7 +264,7 @@ public class UserDbUtil {
 		Connection conn=null ;
 		Statement stm = null;
 		ResultSet res = null;
-		int execute;
+		
 
 		try {
 			conn = this.dataSource.getConnection();
@@ -292,7 +284,7 @@ public class UserDbUtil {
 
 
 
-public ArrayList selectUserFriend(String email) throws SQLException {
+public ArrayList<User> selectUserFriend(String email) throws SQLException {
 	ArrayList<User> userList= new ArrayList<>();
 	Connection conn=null ;
 	Statement stm = null;

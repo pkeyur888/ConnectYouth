@@ -1,11 +1,7 @@
 package com.ConnectYouth.Model;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpSession;
 
 import com.ConnectYouth.db.PostDbUtil;
 import com.ConnectYouth.db.UserDbUtil;
@@ -128,22 +124,15 @@ public class User {
 		return false;
 	}
 	
-	public boolean Login(UserDbUtil userdb) {
-		User founduser=new User();
-		System.out.println("in user");
-		
+	public User Login(UserDbUtil userdb) {
+						
 		try {
-			founduser=userdb.login(this);
+			return userdb.login(this);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 		
-		if(founduser!=null && this.getPassword().equals(founduser.getPassword()))
-		{		
-			return true;
-		}
-		
-		return false;
 	}
 	
 	public boolean addFriend(UserDbUtil userdb) {

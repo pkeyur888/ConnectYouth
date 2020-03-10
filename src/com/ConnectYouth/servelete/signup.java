@@ -1,8 +1,6 @@
 package com.ConnectYouth.servelete;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

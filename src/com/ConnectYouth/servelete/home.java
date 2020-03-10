@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import com.ConnectYouth.Model.Post;
 import com.ConnectYouth.Model.User;
 import com.ConnectYouth.db.PostDbUtil;
 import com.ConnectYouth.db.UserDbUtil;
@@ -67,22 +66,12 @@ public class home extends HttpServlet {
 		}
 		else {
 		
-		User tempUser=new User();
-		PostDbUtil db=new PostDbUtil(dataSource);
-		UserDbUtil dbUser=new UserDbUtil(dataSource);
+	
 		
-		//Find Pending Request
-		try {
-			requectCounter=0;
-			requectCounter=dbUser.findRequest(user.getEmail());
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 		//Find RequestList
 		try {
-			user.setUserRequestList(dbUser.findRequestList(user));
+			user.setUserRequestList(userdb.findRequestList(user));
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -90,7 +79,7 @@ public class home extends HttpServlet {
 		
 		//Fetch all the post
 		try {
-			tempUser.postList=db.selectAllPost();
+			user.postList=postdb.selectAllPost();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,20 +88,23 @@ public class home extends HttpServlet {
 		 ArrayList<User> friendList=new ArrayList<>();
 		//Fetch all the user for Search in home page
 		try {
-			tempUser.userList=dbUser.selectAllUser();
-			friendList=dbUser.friendList(user.getEmail());
+			user.userList=userdb.selectAllUser();
+			friendList=userdb.friendList(user.getEmail());
+			System.out.println(user.getEmail());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		session.setAttribute("requestCount", requectCounter);
-		request.setAttribute("postList", tempUser.postList);
-		request.setAttribute("userList", tempUser.userList);
+		request.setAttribute("postList", user.postList);
+		request.setAttribute("userList", user.userList);
 		request.setAttribute("friendList", friendList);
 		session.setAttribute("user", user);
 		
 		//Request Dispatcher
+		System.out.println("sdasdas");
+		System.out.println(user.getFname());
 		RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
 		
 		dispatcher.forward(request, response);

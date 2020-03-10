@@ -42,7 +42,7 @@
         <input type="button" class='fas fa-bell' style='font-size:40px;color:red' name="friends" value="&#xf0f3">   
     </div>
     <div class="loginUser">
-        <h2>Name</h2>
+        <h2><%= temp.getFname()%></h2>
         <form method="post" action="login">
 			<input type="submit" name="logout" value="logout">
 		</form>

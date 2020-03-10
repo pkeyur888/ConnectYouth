@@ -2,8 +2,6 @@ package com.ConnectYouth.servelete;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import com.ConnectYouth.Model.Post;
 import com.ConnectYouth.Model.User;
 import com.ConnectYouth.db.PostDbUtil;
 import com.ConnectYouth.db.UserDbUtil;
@@ -38,7 +35,7 @@ public class profile extends HttpServlet {
     @Resource(name="jdbc/connectyouth")
     private DataSource dataSource;
     private PostDbUtil postdb;
-    
+    private UserDbUtil userdb;
     
 	@Override
 	public void init() throws ServletException {
@@ -46,6 +43,7 @@ public class profile extends HttpServlet {
 		super.init();
 		try {
 			postdb = new PostDbUtil(dataSource);
+		    userdb=new UserDbUtil(dataSource);
 		}catch(Exception ex) {
 			throw new ServletException(ex);
 		}
@@ -62,8 +60,8 @@ public class profile extends HttpServlet {
 		
 		
 		
-		PostDbUtil postdb=new PostDbUtil(dataSource);
-		UserDbUtil userdb=new UserDbUtil(dataSource);
+	
+		
 		try {
 			user.postList=postdb.selectUserPost(user.getEmail());
 			user.userList=userdb.selectUserFriend(user.getEmail());

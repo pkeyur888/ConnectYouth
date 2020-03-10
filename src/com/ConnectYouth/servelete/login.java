@@ -1,25 +1,15 @@
 package com.ConnectYouth.servelete;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import javax.sql.DataSource;
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.tomcat.util.buf.UriUtil;
-
+import javax.sql.DataSource;
 
 import com.ConnectYouth.Model.User;
 import com.ConnectYouth.db.UserDbUtil;
@@ -72,18 +62,29 @@ public class login extends HttpServlet {
 		User tempUser = new User();
 		tempUser.setEmail(request.getParameter("email"));
 		tempUser.setPassword(request.getParameter("password"));
+		User founduser=tempUser.Login(userdb);
 		
-		if(tempUser.Login(userdb)) {
-			session.setAttribute("user",tempUser);
-			response.sendRedirect("profile");			
-		}
-		else
-		{
-			response.sendRedirect("login.jsp");		
-		}
+		
 
+			if(founduser!=null && tempUser.getPassword().equals(founduser.getPassword()))
+			{		
+				session.setAttribute("user",founduser);
+				System.out.println("after Login");
+				System.out.println(founduser.getFname());
+				response.sendRedirect("profile");
+			}
+			else
+			{
+				response.sendRedirect("login.jsp");		
+			}
+			
+			
+						
 		}
+		
+
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

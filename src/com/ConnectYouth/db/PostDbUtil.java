@@ -20,7 +20,7 @@ public class PostDbUtil {
 	}
 	
 	
-	public ArrayList selectUserPost(String email) throws SQLException {
+	public ArrayList<Post> selectUserPost(String email) throws SQLException {
 		ArrayList<Post> postList= new ArrayList<>();
 		Connection conn=null ;
 		Statement stm = null;
@@ -45,7 +45,7 @@ public class PostDbUtil {
 }
 	
 
-	public ArrayList selectAllPost() throws SQLException {
+	public ArrayList<Post> selectAllPost() throws SQLException {
 		ArrayList<Post> postList= new ArrayList<>();
 		Connection conn=null ;
 		Statement stm = null;

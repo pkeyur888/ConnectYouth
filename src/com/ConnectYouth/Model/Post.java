@@ -1,17 +1,12 @@
 package com.ConnectYouth.Model;
 
 import java.security.SecureRandom;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-import com.ConnectYouth.db.UserDbUtil;
 
 public class Post {
 
 	public Post(String postID, String content,  String date) {
 		this.postID=postID;
 		this.content=content;
-		
 		this.date=date;	
 	}
 	

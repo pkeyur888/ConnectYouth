@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 
 import com.ConnectYouth.Model.User;
 import com.ConnectYouth.db.PostDbUtil;
-import com.ConnectYouth.db.UserDbUtil;
 
 /**
  * Servlet implementation class createpost
