@@ -1,5 +1,6 @@
 package com.ConnectYouth.Model;
 
+import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -7,18 +8,39 @@ import com.ConnectYouth.db.UserDbUtil;
 
 public class Post {
 
-	public Post(String postID, String content, String image, String date) {
+	public Post(String postID, String content,  String date) {
 		this.postID=postID;
 		this.content=content;
-		this.image=image;
+		
 		this.date=date;	
 	}
 	
+public Post(String content,String email) {
+		
+		this.content=content;
+		this.email = email;
+		
+	}
+
+private String date;
+public String getDate() {
+	
+	return java.time.LocalDate.now().toString();
+}
+
+
+
+public String getID() {
+	SecureRandom rand = new SecureRandom();
+	int num = rand.nextInt(1000000);
+	String postID= String.format("0%5d", num);
+	return postID;
+}
 	
 	public Post() {
 		postID="";
 		content="";
-		image="";
+		
 		date="";
 		email="";
 	}
@@ -69,15 +91,7 @@ public class Post {
 	
 	
 	
-	private String date;
-	
-	public String getDate() {
-		return this.date;
-	}
-	
-	public void setDate(String date) {
-		 this.date=date;
-	}
+
 	
 	
 	

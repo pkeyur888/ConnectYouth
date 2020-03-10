@@ -7,13 +7,23 @@ import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
 
+import com.ConnectYouth.db.PostDbUtil;
 import com.ConnectYouth.db.UserDbUtil;
 
 public class User {
 
 	public ArrayList<Post> postList=new ArrayList<>();
 	public ArrayList<User> userList=new ArrayList<>();
+	public ArrayList<User> userRequestList=new ArrayList<>();
 	
+	public ArrayList<User> getUserRequestList() {
+		return userRequestList;
+	}
+
+	public void setUserRequestList(ArrayList<User> userRequestList) {
+		this.userRequestList = userRequestList;
+	}
+
 	public ArrayList<User> getUserList() {
 		return this.userList;
 	}
@@ -168,5 +178,17 @@ public class User {
 		}
 		
 	}
+
+	public void CreatePost(String content, PostDbUtil postdb) {
+		
+		Post tempPost=new Post(content,this.email);
+		try {
+			postdb.CreatePost(tempPost);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block																						
+			e.printStackTrace();
+		
+	}
 	
+}
 }

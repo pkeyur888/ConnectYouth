@@ -1,11 +1,8 @@
 package com.ConnectYouth.servelete;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,73 +12,61 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import com.ConnectYouth.Model.User;
+import com.ConnectYouth.db.PostDbUtil;
 import com.ConnectYouth.db.UserDbUtil;
 
 /**
- * Servlet implementation class friendRequest
+ * Servlet implementation class createpost
  */
-@WebServlet("/friendRequest")
-public class friendRequest extends HttpServlet {
+@WebServlet("/createpost")
+public class createpost extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public friendRequest() {
+    public createpost() {
         super();
         // TODO Auto-generated constructor stub
     }
-    
-    
+
     @Resource(name="jdbc/connectyouth")
     private DataSource dataSource;
-    private UserDbUtil userdb;
+    private PostDbUtil postdb;
     
+   
     @Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
 		try {
-			userdb = new UserDbUtil(dataSource);
+			postdb = new PostDbUtil(dataSource);
+			
 		}catch(Exception ex) {
 			throw new ServletException(ex);
 		}
 	}
-
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		HttpSession session=request.getSession();
-		UserDbUtil dbUser=new UserDbUtil(dataSource);
 		User user = (User) session.getAttribute("user");
+	    String content = request.getParameter("post");
+
+		System.out.println(content);
+	
+		user.CreatePost(content,postdb);
+		response.sendRedirect("home");
 		
-		if(request.getParameter("Accept") != null) {
-			user.acceptRequest(userdb,request.getParameter("userEmail"));
-		}else if(request.getParameter("Delete") != null) {
-			user.deleteRequest(userdb,request.getParameter("userEmail"));
-		}
-		
-		try {
-			user.setUserRequestList(dbUser.findRequestList(user));
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
 		
 		
-		
-		session.setAttribute("user", user);
 		
 	
-		
-		
-		response.sendRedirect("friendRquest.jsp");
-		
-//		request.setAttribute("requestList", tempUser);
-//		RequestDispatcher dispatcher = request.getRequestDispatcher("friendRquest.jsp");		
-//		dispatcher.forward(request, response);
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

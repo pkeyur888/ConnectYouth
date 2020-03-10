@@ -33,7 +33,7 @@ public class PostDbUtil {
 				pstmt.setString(1,email);
 				res = pstmt.executeQuery();
 				while(res.next()){
-					postList.add(new Post(res.getString("postID"),res.getString("content"),res.getString("image"),res.getString("date")));	
+					postList.add(new Post(res.getString("postID"),res.getString("content"),res.getString("date")));	
 	            }
 			 
 				return postList;
@@ -57,7 +57,7 @@ public class PostDbUtil {
 			res = pstmt.executeQuery();
 		
 				while(res.next()){
-					postList.add(new Post(res.getString("postID"),res.getString("content"),res.getString("image"),res.getString("date")));
+					postList.add(new Post(res.getString("postID"),res.getString("content"),res.getString("date")));
 				} 
 				
 				return postList;
@@ -67,29 +67,6 @@ public class PostDbUtil {
 				
 }
 	
-
-	public ArrayList selectUserFriend(String email) throws SQLException {
-		ArrayList<Post> postList= new ArrayList<>();
-		Connection conn=null ;
-		Statement stm = null;
-		ResultSet res = null;
-		
-		try {
-				conn = this.dataSource.getConnection();
-				String sql = String.format("SELECT * FROM posts WHERE email=?");
-				PreparedStatement pstmt = conn.prepareStatement(sql); 
-				pstmt.setString(1,email);
-				res = pstmt.executeQuery();
-				while(res.next()){
-					postList.add(new Post(res.getString("postID"),res.getString("content"),res.getString("image"),res.getString("date")));	
-	            }
-			 
-				return postList;
-			 
-		} finally {
-			close(conn,stm,res);
-		}
-}
 
 	
 	
@@ -115,5 +92,41 @@ private void close(Connection conn,Statement smt,ResultSet res) {
 		exe.printStackTrace();
 	}
 }
+
+
+public int CreatePost(Post tempPost) throws SQLException {
+	
+		
+	    Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		int status = 0;
+	    try {
+	    	
+	    	conn = this.dataSource.getConnection();
+	    	
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO posts VALUES(?,?,?,?)");
+			pstmt.setString(1,tempPost.getID());
+			pstmt.setString(2,tempPost.getEmail());
+			pstmt.setString(3,tempPost.getContent());
+			pstmt.setString(4,tempPost.getDate());
+
+			
+			status=pstmt.executeUpdate();
+
+			System.out.println("one");
+			 
+			System.out.println("one1");
+			 
+	    }
+	  
+	    
+	    finally {
+			close(conn,stm,res);
+		}
+	    return status;
+     }
+	
+
 
 }

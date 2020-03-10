@@ -67,14 +67,17 @@ public class profile extends HttpServlet {
 		try {
 			user.postList=postdb.selectUserPost(user.getEmail());
 			user.userList=userdb.selectUserFriend(user.getEmail());
+			user.setUserRequestList(userdb.findRequestList(user));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
-		request.setAttribute("postList", user.postList);
 		
+		request.setAttribute("postList", user.postList);
+		request.setAttribute("userList", user.userList);
+		session.setAttribute("user", user);
 		//Request Dispatcher
 		RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");
 		

@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="tag" %>
-    
+    <%@page import="com.ConnectYouth.Model.*" %>
+      <%
+	User temp = (User) session.getAttribute("user");
+    %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +33,7 @@
      <form action="friendRequest" method="post"> 
         <input type="submit" class='fas fa-user-friends' style='font-size:40px;color:red' name="friendRequest"
             value="&#xf500">
-             <span class="item-count"><tag:out value="${session.getAttribute('requestCount')}"></tag:out></span>
+             <span class="item-count"><tag:out value="<%= temp.getUserRequestList().size() %>"></tag:out></span>
      </form>
         <input type="button" class='fas fa-bell' style='font-size:40px;color:red' name="friends" value="&#xf0f3">   
     </div>
@@ -40,10 +43,24 @@
 			<input type="submit" name="logout" value="logout">
 		</form>
          </div>
-         <div class="createPost">
+         
+          <div class="createPost">
+          	<form action="createpost" method="post">
             <input type="text" name="post" placeholder="What is in your mind">
-            <input type="submit" value="Post">
+            <input type="submit" name="createPost" value="Post">
+            </form>
         </div>
+         
+         
+         
+         
+         
+   
+ 
+  
+   
+   
+   
     <div class="posts">
     
     

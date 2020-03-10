@@ -2,6 +2,10 @@
     pageEncoding="ISO-8859-1"%>
     
      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="tag" %>
+     <%@page import="com.ConnectYouth.Model.*" %>
+      <%
+		User temp = (User) session.getAttribute("user");
+      %>
     
 <!DOCTYPE html>
 <html>
@@ -33,7 +37,7 @@
      <form action="friendRequest" method="post"> 
         <input type="submit" class='fas fa-user-friends' style='font-size:40px;color:red' name="friendRequest"
             value="&#xf500">
-             <span class="item-count"><tag:out value="${requestCounter}"></tag:out></span>
+             <span class="item-count"><tag:out value="<%= temp.getUserRequestList().size() %>"></tag:out></span>
      </form>
         <input type="button" class='fas fa-bell' style='font-size:40px;color:red' name="friends" value="&#xf0f3">   
     </div>
@@ -61,11 +65,11 @@
     </div>
 <div class="frindList">
     <h3>Friends</h3>
-    <input type="submit" value="Samar Girn">
-    <input type="submit" value="Kyuer">
-    <input type="submit" value="Rajveer">
-    <input type="submit" value="Karanveer">
-    <input type="submit" value="Nisarg">
+    
+     <tag:forEach var="user" items="${userList}">
+    <h2>${user.getFname()} ${user.getLname()}</h2>
+    </tag:forEach>
+
 </div>
 <a href="home">Home</a>
 

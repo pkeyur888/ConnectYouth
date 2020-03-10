@@ -59,12 +59,17 @@ public class home extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession session=request.getSession();
+		User user = (User) session.getAttribute("user");
+		if(user == null)
+		{
+			 response.sendRedirect("login.jsp");
+		}
+		else {
+		
 		User tempUser=new User();
 		PostDbUtil db=new PostDbUtil(dataSource);
 		UserDbUtil dbUser=new UserDbUtil(dataSource);
-		
-		HttpSession session=request.getSession();
-		User user = (User) session.getAttribute("user");
 		
 		//Find Pending Request
 		try {
@@ -75,8 +80,13 @@ public class home extends HttpServlet {
 			e1.printStackTrace();
 		}
 		
-		
-	
+		//Find RequestList
+		try {
+			user.setUserRequestList(dbUser.findRequestList(user));
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		//Fetch all the post
 		try {
@@ -100,13 +110,13 @@ public class home extends HttpServlet {
 		request.setAttribute("postList", tempUser.postList);
 		request.setAttribute("userList", tempUser.userList);
 		request.setAttribute("friendList", friendList);
-		//request.setAttribute("requestCounter", requectCounter);
+		session.setAttribute("user", user);
 		
 		//Request Dispatcher
 		RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
 		
 		dispatcher.forward(request, response);
-		
+		}
 	}
 
 	/**

@@ -4,7 +4,9 @@
     
     <%@page import="com.ConnectYouth.Model.*" %>
     
-    
+    <%
+	User temp = (User) session.getAttribute("user");
+    %>
     
     
 <!DOCTYPE html>
@@ -47,7 +49,7 @@ th, td {
      <form action="friendRequest" method="post"> 
         <input type="submit" class='fas fa-user-friends' style='font-size:40px;color:red' name="friendRequest"
             value="&#xf500">
-             <span class="item-count"><tag:out value="${requestCounter}"></tag:out></span>
+             <span class="item-count"><%= temp.getUserRequestList().size() %></span>
      </form>
         <input type="button" class='fas fa-bell' style='font-size:40px;color:red' name="friends" value="&#xf0f3">   
     </div>
@@ -79,9 +81,9 @@ th, td {
   
   <%
     
-	User temp = (User) session.getAttribute("user");
+	//User temp = (User) session.getAttribute("user");
 	
-	for(User u:temp.getUserList()) {
+	for(User u:temp.getUserRequestList()) {
 		out.println("<tr>");
 		out.println("<td>" + u.getFname() +"</td>" );
 		out.println("<td>" + u.getLname() +"</td>" );

@@ -208,7 +208,7 @@ public class UserDbUtil {
 
 
 
-	public ArrayList findRequestList(User user) throws SQLException {
+	public ArrayList<User> findRequestList(User user) throws SQLException {
 //		ArrayList<User> requestList=new ArrayList<>();
 		Connection conn=null ;
 		Statement stm = null;
@@ -225,9 +225,7 @@ public class UserDbUtil {
 			res = pstmt.executeQuery();
 				while(res.next()){
 					findRequestList.add((new User(res.getString("FirstName"),res.getString("LastName"),res.getString("Email"))));
-					System.out.println(res.getString("FirstName"));
-					System.out.println(res.getString("LastName"));
-					System.out.println(res.getString("Email"));
+					
 				} 
 				return findRequestList; 
 		}finally {
@@ -253,7 +251,9 @@ public class UserDbUtil {
 			 PreparedStatement pstmt = conn.prepareStatement(sql); 
 				pstmt.setString(1,  reciverEmail.trim());
 				pstmt.setString(2,senderEmail.trim());
-				 pstmt.executeUpdate();
+				pstmt.executeUpdate();
+				
+				
 			
 			 
 		} finally {
@@ -293,20 +293,21 @@ public class UserDbUtil {
 
 
 public ArrayList selectUserFriend(String email) throws SQLException {
-	ArrayList<Post> userList= new ArrayList<>();
+	ArrayList<User> userList= new ArrayList<>();
 	Connection conn=null ;
 	Statement stm = null;
 	ResultSet res = null;
 	
 	try {
 			conn = this.dataSource.getConnection();
-			String sql = String.format("select * from connectyouth.friends where RelatedUserEmail=? and status='1' union  select * from connectyouth.friends where RelatingUserEmail=? and status='1'");
+			String sql = String.format("select * from connectyouth.user where Email IN (select friends.RelatedUserEmail as friendemail from connectyouth.friends where status='1' and friends.RelatingUserEmail = ? union  select  friends.RelatingUserEmail as friendemail from connectyouth.friends where status='1' and friends.RelatedUserEmail=?)" );
 			PreparedStatement pstmt = conn.prepareStatement(sql); 
-			pstmt.setString(1,email);
-			pstmt.setString(1,email);
+			pstmt.setString(1, email.trim());
+			pstmt.setString(2, email.trim());
+			
 			res = pstmt.executeQuery();
 			while(res.next()){
-				userList.add(new User(res.getString("postID"),res.getString("content"),res.getString("image"),res.getString("date")));	
+				userList.add(new User(res.getString("FirstName"),res.getString("LastName"),res.getString("Email")));	
             }
 		 
 			return userList;
