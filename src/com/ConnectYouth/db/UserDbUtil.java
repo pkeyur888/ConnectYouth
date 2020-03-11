@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
+import com.ConnectYouth.Model.Message;
 import com.ConnectYouth.Model.User;
 
 public class UserDbUtil {
@@ -307,6 +308,44 @@ public ArrayList<User> selectUserFriend(String email) throws SQLException {
 	} finally {
 		close(conn,stm,res);
 	}
+}
+
+
+
+
+public ArrayList<Message> selectUserMsg(String email, String reciverMsgEmail) throws SQLException {
+	ArrayList<Message> messageList= new ArrayList<>();
+	Connection conn=null ;
+	Statement stm = null;
+	ResultSet res = null;
+	
+	try {
+		conn = this.dataSource.getConnection();
+		
+		
+		String sql = String.format("select * from connectyouth.message where toUser=? and fromUser=? union select * from connectyouth.message where toUser=? and fromUser=?");
+		PreparedStatement pstmt = conn.prepareStatement(sql); 
+		pstmt.setString(1, email.trim());
+		pstmt.setString(2, reciverMsgEmail.trim());
+		pstmt.setString(3, reciverMsgEmail.trim());
+		pstmt.setString(4, email.trim());
+		
+		
+		res = pstmt.executeQuery();
+		
+		while(res.next()){
+			messageList.add(new Message(res.getString("fromUser"),res.getString("toUser"),res.getString("message"),res.getString("date"),res.getInt("seen")));	
+        }
+		for(Message m:messageList) {
+			System.out.println(m.getMessage());
+		}
+		
+	return messageList;	
+	 
+} finally {
+	close(conn,stm,res);
+}
+	
 }
 
 

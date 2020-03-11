@@ -11,6 +11,7 @@ public class User {
 	public ArrayList<Post> postList=new ArrayList<>();
 	public ArrayList<User> userList=new ArrayList<>();
 	public ArrayList<User> userRequestList=new ArrayList<>();
+	public ArrayList<Message> messageList=new ArrayList<>();
 	
 	public ArrayList<User> getUserRequestList() {
 		return userRequestList;

@@ -28,8 +28,10 @@
      <form action="profile" method="post">    
         <input type="submit" style='font-size:40px;color:red' class='fas fa-user-circle' name="profile" value="&#xf2bd">
      </form>    
-        <input type="button" class='fas fa-comment-dots' style='font-size:40px;color:red' name="massege" value="&#xf4ad"
+         <form action="message" method="post">   
+        <input type="submit" class='fas fa-comment-dots' style='font-size:40px;color:red' name="massege" value="&#xf4ad"
             onclick=msg()>
+       </form>
      <form action="friendRequest" method="post"> 
         <input type="submit" class='fas fa-user-friends' style='font-size:40px;color:red' name="friendRequest"
             value="&#xf500">
