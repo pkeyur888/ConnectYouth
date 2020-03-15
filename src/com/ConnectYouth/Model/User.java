@@ -3,6 +3,7 @@ package com.ConnectYouth.Model;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.ConnectYouth.db.MessageDbUtil;
 import com.ConnectYouth.db.PostDbUtil;
 import com.ConnectYouth.db.UserDbUtil;
 
@@ -181,4 +182,43 @@ public class User {
 	}
 	
 }
+
+	public void sendMsg(String reciverID,String msg,MessageDbUtil messagedb) {
+		Message tempMsg=new Message(this.email,reciverID,msg,0);
+		 
+		try {
+			messagedb.sendMsg(tempMsg);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public void deletePost(PostDbUtil postdb,String postId) {
+		try {
+			postdb.deletePost(postId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+	}
+
+	
+
+	public void editPost(PostDbUtil postdb, String postId, String postContent) {
+		// TODO Auto-generated method stub
+		try {
+			postdb.editPost(postId,postContent);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 }

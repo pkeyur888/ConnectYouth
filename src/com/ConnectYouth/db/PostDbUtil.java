@@ -106,9 +106,9 @@ public int CreatePost(Post tempPost) throws SQLException {
 	    	conn = this.dataSource.getConnection();
 	    	
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO posts VALUES(?,?,?,?)");
-			pstmt.setString(1,tempPost.getID());
-			pstmt.setString(2,tempPost.getEmail());
-			pstmt.setString(3,tempPost.getContent());
+			pstmt.setString(1,tempPost.getID().trim());
+			pstmt.setString(2,tempPost.getEmail().trim());
+			pstmt.setString(3,tempPost.getContent().trim());
 			pstmt.setString(4,tempPost.getDate());
 
 			
@@ -128,5 +128,50 @@ public int CreatePost(Post tempPost) throws SQLException {
      }
 	
 
+public void deletePost(String postId) throws SQLException {
+	
+	 Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null;
+		
+		
+		
+		try {
+			conn = this.dataSource.getConnection();
+			 String sql=String.format("DELETE FROM posts WHERE postID=? ");
+			 PreparedStatement pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1, postId);
+				 pstmt.executeUpdate();
+				 System.out.println(postId);
+			 
+		} finally {
+			close(conn,stm,res);
+		}
+			
+}
+
+
+public void editPost(String postId, String postContent) throws SQLException {
+	 Connection conn=null ;
+		Statement stm = null;
+		ResultSet res = null; 
+		
+		
+		
+		try {
+			conn = this.dataSource.getConnection();
+			 String sql=String.format("UPDATE posts   SET content= ? WHERE postID=?  ");
+			
+			 PreparedStatement pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1, postContent);
+				pstmt.setString(2, postId);
+				 pstmt.executeUpdate();
+				 System.out.println(postId);
+			 
+		} finally {
+			close(conn,stm,res);
+		}
+	
+}
 
 }

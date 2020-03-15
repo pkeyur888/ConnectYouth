@@ -103,8 +103,6 @@ public class home extends HttpServlet {
 		session.setAttribute("user", user);
 		
 		//Request Dispatcher
-		System.out.println("sdasdas");
-		System.out.println(user.getFname());
 		RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
 		
 		dispatcher.forward(request, response);

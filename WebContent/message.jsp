@@ -6,6 +6,7 @@
     
     <%
 	User temp = (User) session.getAttribute("user");
+    String reciverEmail=(String) session.getAttribute("reciverEmail");
     %>
 <!DOCTYPE html>
 <html>
@@ -18,6 +19,7 @@
 <title>Message</title>
 </head>
 <body>
+
  <h2 class="header">Message </h2>
 
 <div class="header">
@@ -55,21 +57,32 @@
              <tag:forEach var="user" items="${userList}">
               <form method="post" action="message">
              	<input type="hidden" value="${user.getEmail()}" name="reciverMsg">
-            	<input type="submit" value="${user.getFname()}" >
+            	<input type="submit" value="${user.getFname()}" name="submit">
               </form>	
            	</tag:forEach>
            	
         </div>    
         <div class="msgBox">
-<h3>Keyur</h3>
-<tag:forEach var="message" items="${messageList}">
-<p>${message.getMessage()} </p>
-</tag:forEach>
-
-<input type="text" name="writeMsg" placeholder="Type Somthing">
-<input type="submit" value="Send">
+<h3><tag:out value="${reciverFname} "></tag:out></h3>
+<%
+	for(Message m:temp.messageList){
+		if(((reciverEmail.trim()).equals(m.getFromUser()))) {
+			out.println("<p>"+m.getMessage()  +"</p>");
+		}
+		else {
+			out.println("<p style='margin-left:430px;'>"+m.getMessage()  +"</p>");
+		}
+	}
+%>
 
 </div>
+
+<form method="post" action="message">
+<input type="hidden" name="reciverMsg" value="${reciverEmail} ">
+<input type="hidden" name="reciverFname" value="${reciverFname} ">
+<input type="text" name="writeMsg" placeholder="Type Somthing">
+<input type="submit" name="send" value="send">
+</form>
 
 </body>
 </html>

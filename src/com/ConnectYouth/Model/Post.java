@@ -35,7 +35,6 @@ public String getID() {
 	public Post() {
 		postID="";
 		content="";
-		
 		date="";
 		email="";
 	}

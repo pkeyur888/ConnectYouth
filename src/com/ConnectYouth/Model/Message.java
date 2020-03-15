@@ -1,5 +1,11 @@
 package com.ConnectYouth.Model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.ConnectYouth.db.MessageDbUtil;
+
 public class Message {
 	
 	private String fromUser;
@@ -13,6 +19,13 @@ public class Message {
 		this.toUser=toUser;
 		this.message=message;
 		this.date=date;
+		this.seen=seen;
+		
+	}
+	public Message(String email, String reciverID, String msg,int seen) {
+		this.fromUser=email;
+		this.toUser=reciverID;
+		this.message=msg;
 		this.seen=seen;
 		
 	}
@@ -41,7 +54,12 @@ public class Message {
 	
 	
 	public String getDate() {
-		return date;
+		 
+	       
+	       SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	       Date date = new Date(System.currentTimeMillis());
+	       return formatter.format(date);
+		
 	}
 	public void setDate(String date) {
 		this.date = date;

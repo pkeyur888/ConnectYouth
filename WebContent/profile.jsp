@@ -59,12 +59,30 @@
     
     
     <tag:forEach var="post" items="${postList}">
-    
+     <%! int i = 0;  %>
+   <% i++; %>
         <div  class="postContent">
 <p>${post.getContent()}</p>
-<input type="submit" value="Like">
-<input type="submit" value="Save">
+<form action="oprationsPost" method="post" >
+<input type="hidden" name="postId" value="${post.getPostID()}">
+<input type="submit" value="Delete" name="delete">
+
+
+
+<input type="button" value="Edit" onclick="showEdit(<%=i%>)">
+
+
+<div class="editPost" id="edit<%=i%>">
+
+    <textarea  rows="4" cols="40" placeholder="Edit Post" name="postContent"> ${post.getContent()}</textarea>
+    
+        <input type="hidden" name="postId" value="${post.getPostID()}">
+
+        <input type="submit" value="Save" name="save"onclick="hideEdit(<%=i%>)">
 </div>
+</div>
+</form>
+
 </tag:forEach>
     </div>
 <div class="frindList">
@@ -75,6 +93,15 @@
     </tag:forEach>
 
 </div>
-<a href="home">Home</a>
+<script>
+function showEdit(a)
+{
+    document.getElementById('edit'+ a ).style.display = "block";
+}
+function hideEdit(a){
+    document.querySelector('#edit'+ a ).style.display = "none";
+
+}
+         </script>
 
 </html>

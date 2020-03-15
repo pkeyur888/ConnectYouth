@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import com.ConnectYouth.Model.Message;
 import com.ConnectYouth.Model.Post;
 import com.ConnectYouth.Model.User;
+import com.ConnectYouth.db.MessageDbUtil;
 import com.ConnectYouth.db.PostDbUtil;
 import com.ConnectYouth.db.UserDbUtil;
 
@@ -36,6 +37,7 @@ public class message extends HttpServlet {
     @Resource(name="jdbc/connectyouth")
     private DataSource dataSource;
     private UserDbUtil userdb;
+    private MessageDbUtil messagedb;
     
    
     @Override
@@ -44,6 +46,7 @@ public class message extends HttpServlet {
 		super.init();
 		try {
 			userdb = new UserDbUtil(dataSource);
+			messagedb=new MessageDbUtil(dataSource);
 			
 		}catch(Exception ex) {
 			throw new ServletException(ex);
@@ -56,6 +59,20 @@ public class message extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user = (User) session.getAttribute("user");
+		String reciverFname=null;
+		reciverFname=request.getParameter("submit");
+		
+		String reciverMsgEmail=request.getParameter("reciverMsg");
+		String submitMsg=request.getParameter("send");
+		
+		
+		if(submitMsg != null) {
+			 reciverFname=request.getParameter("reciverFname");
+			 reciverMsgEmail=request.getParameter("reciverMsg");
+			String msg=request.getParameter("writeMsg");
+			user.sendMsg(reciverMsgEmail,msg,messagedb);
+		}
+		
 		
 		try {
 			user.userList=userdb.selectUserFriend(user.getEmail());
@@ -63,27 +80,38 @@ public class message extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		request.setAttribute("userList", user.userList);
 		session.setAttribute("user", user);
 		
-		String reciverMsgEmail=request.getParameter("reciverMsg");
+		
 		if(reciverMsgEmail != null) {
-			System.out.println(reciverMsgEmail);
-			System.out.println(user.getEmail());
-			try {
-				
-				
-				user.messageList=userdb.selectUserMsg(user.getEmail(),reciverMsgEmail);
+			try {	
+				user.messageList=messagedb.selectUserMsg(user.getEmail(),reciverMsgEmail);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
+			
 		}
 		
-		
-		reciverMsgEmail=null;
+		for(Message m:user.messageList) {
+			if(((reciverMsgEmail.trim()).equals(m.getFromUser()))) {
+				System.out.println(m.getMessage());
+			}
+			else {
+				System.out.println("123");
+			}
+		}
 		
 		//Request Dispatcher
+		System.out.println("----------");
+		System.out.println(reciverMsgEmail);
+		session.setAttribute("reciverEmail", reciverMsgEmail);
+		//request.setAttribute("reciverEmail",reciverMsgEmail);
+		request.setAttribute("reciverFname",reciverFname );
 		request.setAttribute("userList", user.userList);
 		request.setAttribute("messageList", user.messageList);
 		
