@@ -54,6 +54,13 @@ public class friendRequest extends HttpServlet {
 		UserDbUtil dbUser=new UserDbUtil(dataSource);
 		User user = (User) session.getAttribute("user");
 		
+		try {
+			user.userList=userdb.selectAllUser();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		if(request.getParameter("Accept") != null) {
 			user.acceptRequest(userdb,request.getParameter("userEmail"));
 		}else if(request.getParameter("Delete") != null) {

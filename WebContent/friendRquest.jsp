@@ -19,6 +19,9 @@
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <title>Connect Youth</title>
 <style>
+.hidetable{
+	
+}
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
@@ -64,7 +67,7 @@ th, td {
          
          
          <div class="createPost">
-            <input type="text" name="post" placeholder="Search Friends">
+            <input type="text" name="post" id="myInput"  placeholder="Search Friends">
             <input type="submit" value="Search">
         </div>
 
@@ -85,7 +88,6 @@ th, td {
   
   <%
     
-	//User temp = (User) session.getAttribute("user");
 	
 	for(User u:temp.getUserRequestList()) {
 		out.println("<tr>");
@@ -102,12 +104,54 @@ th, td {
 	
 	
     	
-    %>
+   %>
     
     
    
   
 
+</table><br><br>
+<div class="hidetable">
+<table style="width:50%">
+ <caption>Serach Friend</caption>
+  <tr>
+    <th>First</th>
+    <th>Last</th>
+    <th>Action</th>
+    
+  </tr>
+ 
+    <%
+    
+	
+	for(User user:temp.userList) {
+		out.println("<tr id='myTR'>");
+		out.println("<td>" + user.getFname() +"</td>" );
+		out.println("<td>" + user.getLname() +"</td>" );
+		
+		out.println("<td><form method='post' action='addFriend'>" );
+		out.println("<input type='hidden' name='friendEmail' value='"+user.getEmail()+"'>");
+		out.println("<input type='submit' name='addfriend' value='Add Friend'>");
+		out.println(" </form></td>");
+		out.println("</tr>");
+	}
+	
+	
+    	
+    %>
+  
 </table>
+</div>
+
 </body>
+<script>
+$(document).ready(function(){
+	  $("#myInput").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $("#myTable tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+	  });
+	});
+</script>
 </html>
