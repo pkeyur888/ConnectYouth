@@ -6,7 +6,7 @@ Use (https://github.com/pkeyur888/ConnectYouth.git) to clone ConnectYouth.
 Project is build and run with the pre installed Eclipse 2019-12
 
 ## Usage
-Use maven-plugin, jdk-8u251-windows-x64, Tomcat 8.0
+Use jdk-8u251-windows-x64, Tomcat 8.0
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
